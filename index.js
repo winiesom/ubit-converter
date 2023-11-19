@@ -1,13 +1,34 @@
-// index.js
+// unit-converter-backend/app.js
+const express = require('express');
+const app = express();
+const port = 3000;
 
-const http = require('http');
+app.use(express.urlencoded({ extended: true }));
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello, Node.js!');
+app.post('/convert', (req, res) => {
+  const { value, conversionType } = req.body;
+  let result;
+
+  switch (conversionType) {
+    case 'feetToInches':
+      result = value * 12;
+      break;
+    case 'inchesToFeet':
+      result = value / 12;
+      break;
+    case 'literToGallon':
+      result = value / 3.78541;
+      break;
+    case 'gallonToLiter':
+      result = value * 3.78541;
+      break;
+    default:
+      result = 'Invalid conversion type';
+  }
+
+  res.json({ result });
 });
 
-const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
 });
