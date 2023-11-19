@@ -1,12 +1,18 @@
-// unit-converter-backend/app.js
 const express = require('express');
+const cors = require('cors');
 const app = express();
-const port = 3000;
 
+// Use the CORS middleware
+app.use(cors());
+
+// Parse JSON and URL-encoded bodies
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/convert', (req, res) => {
   const { value, conversionType } = req.body;
+  console.log('Request Data:', req.body);
+
   let result;
 
   switch (conversionType) {
@@ -22,6 +28,24 @@ app.post('/convert', (req, res) => {
     case 'gallonToLiter':
       result = value * 3.78541;
       break;
+    case 'poundToKilogram':
+      result = value / 2.20462;
+      break;
+    case 'kilogramToPound':
+      result = value * 2.20462;
+      break;
+    case 'celsiusToFahrenheit':
+      result = (value * 9/5) + 32;
+      break;
+    case 'fahrenheitToCelsius':
+      result = (value - 32) * 5/9;
+      break;
+    case 'milesToKilometers':
+      result = value * 1.60934;
+      break;
+    case 'kilometersToMiles':
+      result = value / 1.60934;
+      break;
     default:
       result = 'Invalid conversion type';
   }
@@ -29,6 +53,7 @@ app.post('/convert', (req, res) => {
   res.json({ result });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
