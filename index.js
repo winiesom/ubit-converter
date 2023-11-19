@@ -11,7 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post('/convert', (req, res) => {
   const { value, conversionType } = req.body;
-  console.log('Request Data:', req.body);
 
   let result;
 
