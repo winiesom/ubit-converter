@@ -1,5 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+dotenv.config();
+
 const app = express();
 
 // Use the CORS middleware
@@ -52,7 +58,7 @@ app.post('/convert', (req, res) => {
   res.json({ result });
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
